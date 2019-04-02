@@ -1,20 +1,44 @@
 package com.syaroz.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
 public class Project {
+
+    public Project(){
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Project Name is Required")
     private String projectName;
+
+    @NotBlank(message = "Project Identifier is required")
+    @Size(min = 4, max = 5, message = "Please use 4 to 5 character")
+    @Column(updatable = false,unique = true)
     private String projectIdentifier;
+
+    @NotBlank(message = "Project description is required")
     private String description;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date start_date;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
 
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date create_At;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
     public Long getId() {
@@ -79,10 +103,6 @@ public class Project {
 
     public void setUpdated_At(Date updated_At) {
         this.updated_At = updated_At;
-    }
-
-    public Project(){
-
     }
 
     @PrePersist
